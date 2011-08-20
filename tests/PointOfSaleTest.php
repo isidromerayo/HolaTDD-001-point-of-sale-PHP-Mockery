@@ -10,6 +10,15 @@ use \Mockery as m;
 
 class PointOfSaleTest extends PHPUnit_Framework_TestCase {
     
+    private $screen;
+    private $catalog;
+    private $pointOfSale;
+    
+    public function setUp() {
+        $this->screen = m::mock('\com\holatdd\Screen');
+        $this->catalog = m::mock('\com\holatdd\Catalog');
+        $this->pointOfSale = new PointOfSale($this->catalog, $this->screen);
+    }
     
     public function tearDown() {
         m::close();
@@ -19,14 +28,11 @@ class PointOfSaleTest extends PHPUnit_Framework_TestCase {
      * @test
      */
     public function onBarcode_search_catalog() {
-        $screen = m::mock('\com\holatdd\Screen');
-        $catalog = m::mock('\com\holatdd\Catalog');
         
-        $catalog->shouldReceive('search')->with('123')->once();
-        $screen->shouldReceive('show');
+        $this->catalog->shouldReceive('search')->with('123')->once();
+        $this->screen->shouldReceive('show');
         
-        $pointOfSale = new PointOfSale($catalog, $screen);
-        $pointOfSale->onBarcode('123');
+        $this->pointOfSale->onBarcode('123');
         
     }
     
@@ -34,15 +40,11 @@ class PointOfSaleTest extends PHPUnit_Framework_TestCase {
      * @test
      */
     public function onBarcode_show_price() {
-        $screen = m::mock('\com\holatdd\Screen');
-        $catalog = m::mock('\com\holatdd\Catalog');
-                
         
-        $screen->shouldReceive('show')->once();
-        $catalog->shouldReceive('search')->with('123')->andReturn('1€');
+        $this->screen->shouldReceive('show')->once();
+        $this->catalog->shouldReceive('search')->with('123')->andReturn('1€');
         
-        $pointOfSale = new PointOfSale($catalog, $screen);
-        $price = $pointOfSale->onBarcode('123');
+        $this->pointOfSale->onBarcode('123');
         
     }
 }
