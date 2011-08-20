@@ -4,6 +4,7 @@
 <phpunit backupGlobals="false"
          backupStaticAttributes="false"
          strict="true"
+         bootstrap="./tests/TestHelper.php"
          verbose="true">
   <testsuites>
     <testsuite name="Hola TDD 001 point of sale using Mockery">

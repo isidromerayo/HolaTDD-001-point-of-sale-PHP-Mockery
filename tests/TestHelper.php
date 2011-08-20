@@ -24,3 +24,13 @@ date_default_timezone_set('Europe/Madrid');
 
 // We wanna catch all errors en strict warnings
 error_reporting(E_ALL|E_STRICT);
+
+
+spl_autoload_register(function($class)
+{
+    $file = __DIR__.'/../src/'.strtr($class, '\\', '/').'.php';
+    if (file_exists($file)) {
+        require $file;
+        return true;
+    }
+});
