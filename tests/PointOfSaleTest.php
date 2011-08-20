@@ -5,6 +5,7 @@
  * @author Isidro Merayo
  */
 use com\holatdd\PointOfSale as PointOfSale;
+
 use \Mockery as m;
 
 class PointOfSaleTest extends PHPUnit_Framework_TestCase {
@@ -18,12 +19,12 @@ class PointOfSaleTest extends PHPUnit_Framework_TestCase {
      * @test
      */
     public function onBarcode_search_catalog() {
-        $catalog = m::mock('Catalog');
-        
-        $pointOfSale = new PointOfSale();
-        $pointOfSale->onBarcode('123');
+        $catalog = m::mock('\com\holatdd\Catalog');
         
         $catalog->shouldReceive('search')->with('123')->once();
-        // verify(catalog).search("123");
+        
+        $pointOfSale = new PointOfSale($catalog);
+        $pointOfSale->onBarcode('123');
+        
     }
 }
